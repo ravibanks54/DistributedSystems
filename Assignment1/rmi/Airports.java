@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ravibhankharia on 10/5/16.
@@ -46,7 +47,7 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
         latitude = Math.toRadians(latitude);
         longitude = Math.toRadians(longitude);
 
-        ArrayList<AirportStruct> airportStructs = new ArrayList<>();
+        List<AirportStruct> airportStructs = new ArrayList<>();
 
         for (int i = 0; i < airportList.getAirportCount(); i++){
             double listLat = Math.toRadians(airportList.getAirport(i).getLat());
@@ -66,7 +67,7 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
             }
         }
 
-        airportStructs = (ArrayList) airportStructs.subList(0,5);
+        airportStructs = new ArrayList<>(airportStructs.subList(0,5));
 
         return (AirportStruct[]) airportStructs.toArray();
 

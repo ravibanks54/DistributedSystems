@@ -57,14 +57,15 @@ public class Client {
                 System.out.println("Place not found");
             }
             System.out.println(placeStruct.toString());
-/*
+
+            //port--;
             String urlAirports = "//" + host + ":" + port + "/Airports";
             System.out.println("looking up " + urlAirports);
-            AirportInterface airport = (AirportInterface) Naming.lookup(urlAirports);
-
+            //AirportInterface airport = (AirportInterface) Naming.lookup(urlAirports);
+            AirportInterface airport = (AirportInterface) registry.lookup(urlAirports);
             // call the remote method and print the return
             AirportStruct[] airportStruct = airport.getAirports(placeStruct.lat, placeStruct.lon);
-            System.out.println(airportStruct.toString());*/
+            System.out.println(airportStruct.toString());
         } catch(Exception e) {
             System.out.println("Client exception: " + e);
             StringWriter sw = new StringWriter();

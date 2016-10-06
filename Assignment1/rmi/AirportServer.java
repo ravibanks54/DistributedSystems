@@ -1,4 +1,5 @@
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -23,7 +24,12 @@ public class AirportServer {
             if (args.length == 1){
                 port = Integer.parseInt(args[0]);
             }
-            registry = LocateRegistry.createRegistry(port);
+            try{
+                registry = LocateRegistry.getRegistry(port);
+            }catch (RemoteException re){
+                registry = LocateRegistry.createRegistry(port);
+            }
+            //registry = LocateRegistry.getRegistry(port);
             String url = "//localhost:" + port + "/Airports";
             System.out.println("binding " + url);
             registry.bind(url, new Airports());

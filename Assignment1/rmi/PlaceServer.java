@@ -1,4 +1,5 @@
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -23,7 +24,11 @@ public class PlaceServer {
             if (args.length == 1) {
                 port = Integer.parseInt(args[0]);
             }
-            registry = LocateRegistry.createRegistry(port);
+            try {
+                registry = LocateRegistry.createRegistry(port);
+            }catch (RemoteException re){
+                registry = LocateRegistry.getRegistry(port);
+            }
             String url = "//localhost:" + port + "/Places";
             System.out.println("binding " + url);
             registry.bind(url, new Places());

@@ -19,6 +19,6 @@ public class PlaceStruct implements Serializable{
     }
 
     public String toString(){
-        return "City: " + name + " State: " + state + "Lat, Lon: " + lat + ", " + lon;
+        return name + ", " + state + ": " + lat + ", " + lon;
     }
 }
