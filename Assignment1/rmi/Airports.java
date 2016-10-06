@@ -1,4 +1,3 @@
-import java.rmi.RMISecurityException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
@@ -11,8 +10,8 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
     }
 
     @Override
-    public Airport[] getAirports(double latitude, double longitude){
-        return new Airport[0];
+    public AirportStruct[] getAirports(double latitude, double longitude){
+        return new AirportStruct[0];
     }
 
 }

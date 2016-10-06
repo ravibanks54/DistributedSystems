@@ -1,9 +1,10 @@
 /**
  * Created by ravibhankharia on 10/5/16.
  */
-public class Place {
+public class AirportStruct {
+    String code;
     String name;
-    String state;
     double lat;
     double lon;
+    double dist;
 }
