@@ -6,7 +6,7 @@ import java.rmi.Naming;
 public class AirportServer {
     public static void main(String args[]) {
         if (args.length > 1) {
-            System.err.println("usage: java SampleServer rmi_port");
+            System.err.println("usage: java AirportServer rmi_port");
             System.exit(1);
         }
         // Create and install a security manager
@@ -20,14 +20,13 @@ public class AirportServer {
             if (args.length == 1){
                 port = Integer.parseInt(args[0]);
             }
-            String url = "//localhost:" + port + "/Sample";
+            String url = "//localhost:" + port + "/Airports";
             System.out.println("binding " + url);
             Naming.rebind(url, new Airports());
-            // Naming.rebind("Sample", new Sample());
             System.out.println("server " + url + " is running...");
         }
         catch (Exception e) {
-            System.out.println("Sample server failed:" + e.getMessage());
+            System.out.println("Airport server failed:" + e.getMessage());
         }
     }
 }

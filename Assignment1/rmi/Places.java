@@ -15,7 +15,7 @@ public class Places extends UnicastRemoteObject implements PlaceInterface{
     PlaceDataProto.PlaceList placeList;
     protected Places() throws RemoteException {
         System.out.println("New instance of Places created");
-        File file = new File("./Assignment1/places/airports-proto.bin");
+        File file = new File("./Assignment1/places/places-proto.bin");
         byte[] fileData = new byte[(int) file.length()];
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
@@ -40,7 +40,7 @@ public class Places extends UnicastRemoteObject implements PlaceInterface{
     public PlaceStruct findPlace(String placename, String state) throws java.rmi.RemoteException{
 
         for (int i = 0; i < placeList.getPlaceCount(); i++){
-            if (placeList.getPlace(i).getName().startsWith(placename) && placeList.getPlace(i).getState().equalsIgnoreCase(state)){
+            if (placeList.getPlace(i).getName().regionMatches(true, 0, placename, 0, placename.length()) && placeList.getPlace(i).getState().equalsIgnoreCase(state)){
                 return new PlaceStruct(placeList.getPlace(i));
             }
         }
