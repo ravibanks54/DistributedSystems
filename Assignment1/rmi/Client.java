@@ -40,16 +40,23 @@ public class Client {
                 city = args[4];
                 state = args[5];
             }
-            String url = "//" + host + ":" + port + "/Sample";
-            System.out.println("looking up " + url);
-            SampleInterface sample = (SampleInterface) Naming.lookup(url);
+            String urlPlaces = "//" + host + ":" + port + "/Places";
+            System.out.println("looking up " + urlPlaces);
+            PlaceInterface place = (PlaceInterface) Naming.lookup(urlPlaces);
 
-            // args[2] onward are the strings we want to reverse
-            for (int i=4; i < args.length; ++i)
                 // call the remote method and print the return
-                System.out.println(sample.invert(args[i]));
+            PlaceStruct placeStruct = place.findPlace(city, state);
+            System.out.println(placeStruct.toString());
+
+            String urlAirports = "//" + host + ":" + port + "/Airports";
+            System.out.println("looking up " + urlAirports);
+            AirportInterface airport = (AirportInterface) Naming.lookup(urlAirports);
+
+            // call the remote method and print the return
+            AirportStruct[] airportStruct = airport.getAirports(placeStruct.lat, placeStruct.lon);
+            System.out.println(airportStruct.toString());
         } catch(Exception e) {
-            System.out.println("SampleClient exception: " + e);
+            System.out.println("Client exception: " + e);
         }
     }
 }

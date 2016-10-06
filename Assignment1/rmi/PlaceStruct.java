@@ -15,4 +15,8 @@ public class PlaceStruct {
         this.lat = place.getLat();
         this.lon = place.getLon();
     }
+
+    public String toString(){
+        return "City: " + name + " State: " + state + "Lat, Lon: " + lat + ", " + lon;
+    }
 }
