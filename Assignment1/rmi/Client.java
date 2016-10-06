@@ -64,8 +64,12 @@ public class Client {
             //AirportInterface airport = (AirportInterface) Naming.lookup(urlAirports);
             AirportInterface airport = (AirportInterface) registry.lookup(urlAirports);
             // call the remote method and print the return
-            AirportStruct[] airportStruct = airport.getAirports(placeStruct.lat, placeStruct.lon);
-            System.out.println(airportStruct.toString());
+            AirportStruct[] airportStructs = airport.getAirports(placeStruct.lat, placeStruct.lon);
+            for (int i = 0; i < airportStructs.length; i++){
+
+                System.out.println(airportStructs[i].toString());
+            }
+
         } catch(Exception e) {
             System.out.println("Client exception: " + e);
             StringWriter sw = new StringWriter();

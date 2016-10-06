@@ -69,7 +69,7 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
 
         airportStructs = new ArrayList<>(airportStructs.subList(0,5));
 
-        return (AirportStruct[]) airportStructs.toArray();
+        return airportStructs.toArray(new AirportStruct[airportStructs.size()]);
 
     }
 
