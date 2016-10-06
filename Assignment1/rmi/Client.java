@@ -1,3 +1,5 @@
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.rmi.Naming;
 
 /**
@@ -47,16 +49,22 @@ public class Client {
                 // call the remote method and print the return
             PlaceStruct placeStruct = place.findPlace(city, state);
             System.out.println(placeStruct.toString());
-
+/*
             String urlAirports = "//" + host + ":" + port + "/Airports";
             System.out.println("looking up " + urlAirports);
             AirportInterface airport = (AirportInterface) Naming.lookup(urlAirports);
 
             // call the remote method and print the return
             AirportStruct[] airportStruct = airport.getAirports(placeStruct.lat, placeStruct.lon);
-            System.out.println(airportStruct.toString());
+            System.out.println(airportStruct.toString());*/
         } catch(Exception e) {
             System.out.println("Client exception: " + e);
+            StringWriter sw = new StringWriter();
+            PrintWriter pw = new PrintWriter(sw);
+            e.printStackTrace(pw);
+            System.out.println(sw.toString()); // stack trace as a string
+            //System.out.println(e.getStackTrace());
+
         }
     }
 }
