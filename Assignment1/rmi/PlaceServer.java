@@ -6,7 +6,7 @@ import java.rmi.Naming;
 public class PlaceServer {
     public static void main(String args[]) {
         if (args.length > 1) {
-            System.err.println("usage: java SampleServer rmi_port");
+            System.err.println("usage: java PlaceServer rmi_port");
             System.exit(1);
         }
         // Create and install a security manager
@@ -20,14 +20,12 @@ public class PlaceServer {
             if (args.length == 1) {
                 port = Integer.parseInt(args[0]);
             }
-            String url = "//localhost:" + port + "/Sample";
+            String url = "//localhost:" + port + "/Places";
             System.out.println("binding " + url);
             Naming.rebind(url, new Places());
-            // Naming.rebind("Sample", new Sample());
             System.out.println("server " + url + " is running...");
-        }
-        catch (Exception e) {
-            System.out.println("Sample server failed:" + e.getMessage());
+        }catch (Exception e) {
+            System.out.println("Place server failed:" + e.getMessage());
         }
     }
 }
