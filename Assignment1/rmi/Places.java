@@ -6,7 +6,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class Places extends UnicastRemoteObject implements PlaceInterface{
     protected Places() throws RemoteException {
-
+        System.out.println("New instance of Places created");
     }
 
     @Override

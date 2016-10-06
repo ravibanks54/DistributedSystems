@@ -7,6 +7,7 @@ import java.rmi.server.UnicastRemoteObject;
  */
 public class Airports extends UnicastRemoteObject implements AirportInterface{
     protected Airports() throws RemoteException {
+        System.out.println("New instance of Airports created");
     }
 
     @Override

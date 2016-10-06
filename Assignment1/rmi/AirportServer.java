@@ -5,7 +5,7 @@ import java.rmi.Naming;
  */
 public class AirportServer {
     public static void main(String args[]) {
-        if (args.length != 1) {
+        if (args.length > 1) {
             System.err.println("usage: java SampleServer rmi_port");
             System.exit(1);
         }
@@ -14,9 +14,12 @@ public class AirportServer {
         if (System.getSecurityManager() == null)
             System.setSecurityManager(new RMISecurityManager());
 */
+        int port = 1099;
         try {
             // first command-line argument is the port of the rmiregistry
-            int port = Integer.parseInt(args[0]);
+            if (args.length == 1){
+                port = Integer.parseInt(args[0]);
+            }
             String url = "//localhost:" + port + "/Sample";
             System.out.println("binding " + url);
             Naming.rebind(url, new Airports());
