@@ -1,6 +1,7 @@
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 // import java.rmi.RMISecurityManager;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
 public class SampleServer {
@@ -9,6 +10,7 @@ public class SampleServer {
             System.err.println("usage: java SampleServer rmi_port");
             System.exit(1);
         }
+
         // Create and install a security manager
 /*
         if (System.getSecurityManager() == null)

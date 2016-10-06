@@ -1,9 +1,12 @@
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by ravibhankharia on 10/5/16.
  */
 public class AirportServer {
+    static Registry registry;
     public static void main(String args[]) {
         if (args.length > 1) {
             System.err.println("usage: java AirportServer rmi_port");
@@ -20,9 +23,11 @@ public class AirportServer {
             if (args.length == 1){
                 port = Integer.parseInt(args[0]);
             }
+            registry = LocateRegistry.createRegistry(port);
             String url = "//localhost:" + port + "/Airports";
             System.out.println("binding " + url);
-            Naming.rebind(url, new Airports());
+            registry.bind(url, new Airports());
+            //Naming.rebind(url, new Airports());
             System.out.println("server " + url + " is running...");
         }
         catch (Exception e) {

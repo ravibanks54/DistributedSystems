@@ -1,9 +1,12 @@
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by ravibhankharia on 10/5/16.
  */
 public class PlaceServer {
+    static Registry registry;
     public static void main(String args[]) {
         if (args.length > 1) {
             System.err.println("usage: java PlaceServer rmi_port");
@@ -20,9 +23,11 @@ public class PlaceServer {
             if (args.length == 1) {
                 port = Integer.parseInt(args[0]);
             }
+            registry = LocateRegistry.createRegistry(port);
             String url = "//localhost:" + port + "/Places";
             System.out.println("binding " + url);
-            Naming.rebind(url, new Places());
+            registry.bind(url, new Places());
+            //Naming.rebind(url, new Places());
             System.out.println("server " + url + " is running...");
         }catch (Exception e) {
             System.out.println("Place server failed:" + e.getMessage());

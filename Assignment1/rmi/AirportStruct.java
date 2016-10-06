@@ -1,9 +1,11 @@
 import AirportData.AirportDataProto;
 
+import java.io.Serializable;
+
 /**
  * Created by ravibhankharia on 10/5/16.
  */
-public class AirportStruct {
+public class AirportStruct implements Serializable{
     String code;
     String name;
     double lat;

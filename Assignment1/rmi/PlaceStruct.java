@@ -1,9 +1,11 @@
 import PlaceData.PlaceDataProto;
 
+import java.io.Serializable;
+
 /**
  * Created by ravibhankharia on 10/5/16.
  */
-public class PlaceStruct {
+public class PlaceStruct implements Serializable{
     String name;
     String state;
     double lat;

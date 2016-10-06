@@ -1,11 +1,14 @@
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.rmi.Naming;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 
 /**
  * Created by ravibhankharia on 10/5/16.
  */
 public class Client {
+    static Registry registry;
     public static void main(String args[]) {
         try {
             if (args.length < 2) {
@@ -34,7 +37,7 @@ public class Client {
             }
             if (args.length == 2){
                 city = args[0];
-                city = args[1];
+                state = args[1];
             }else if (args.length == 4){
                 city = args[2];
                 state = args[3];
@@ -42,12 +45,17 @@ public class Client {
                 city = args[4];
                 state = args[5];
             }
+            registry = LocateRegistry.getRegistry(port);
             String urlPlaces = "//" + host + ":" + port + "/Places";
             System.out.println("looking up " + urlPlaces);
-            PlaceInterface place = (PlaceInterface) Naming.lookup(urlPlaces);
+            //PlaceInterface place = (PlaceInterface) Naming.lookup(urlPlaces);
+            PlaceInterface place = (PlaceInterface) registry.lookup(urlPlaces);
 
                 // call the remote method and print the return
             PlaceStruct placeStruct = place.findPlace(city, state);
+            if (placeStruct == null){
+                System.out.println("Place not found");
+            }
             System.out.println(placeStruct.toString());
 /*
             String urlAirports = "//" + host + ":" + port + "/Airports";
