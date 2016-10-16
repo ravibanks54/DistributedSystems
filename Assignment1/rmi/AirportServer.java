@@ -13,31 +13,25 @@ public class AirportServer {
             System.err.println("usage: java AirportServer rmi_port");
             System.exit(1);
         }
-        // Create and install a security manager
-/*
-        if (System.getSecurityManager() == null)
-            System.setSecurityManager(new RMISecurityManager());
-*/
+
         int port = 1099;
         try {
-            // first command-line argument is the port of the rmiregistry
-            if (args.length == 1){
+            if (args.length == 1){              // first command-line argument is the port of the rmiregistry
                 port = Integer.parseInt(args[0]);
             }
             try{
-                registry = LocateRegistry.getRegistry(port);
+                registry = LocateRegistry.getRegistry(port);    //try getting registry, if it doesn't exist, create it
             }catch (RemoteException re){
                 registry = LocateRegistry.createRegistry(port);
             }
-            //registry = LocateRegistry.getRegistry(port);
+
             String url = "//localhost:" + port + "/Airports";
             System.out.println("binding " + url);
-            registry.bind(url, new Airports());
-            //Naming.rebind(url, new Airports());
+            registry.bind(url, new Airports());         //bind to url
             System.out.println("server " + url + " is running...");
         }
         catch (Exception e) {
-            System.out.println("Airport server failed:" + e.getMessage());
+            System.out.println("Airport server failed");
         }
     }
 }

@@ -25,44 +25,42 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
         try {
             FileInputStream fileInputStream = new FileInputStream(file);
             fileInputStream.read(fileData);
-            /*for (int i = 0; i < fileData.length; i++) {
-                System.out.print((char)fileData[i]);
-            }*/
             airportList = AirportDataProto.AirportList.parseFrom(fileData);
 
         } catch (InvalidProtocolBufferException e) {
-//            e.printStackTrace();
+            System.out.println("Invalid File.");
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
-//            e.printStackTrace();
         } catch (IOException e1) {
             System.out.println("Error Reading The File.");
-//            e1.printStackTrace();
         }
     }
 
     @Override
     public AirportStruct[] getAirports(double latitude, double longitude){
 
-        if(airportList == null){
+        if(airportList == null){        //return null if the file for airports does not exist
             return null;
         }
 
-        latitude = Math.toRadians(latitude);
+        latitude = Math.toRadians(latitude);        //convert lat and long to radians
         longitude = Math.toRadians(longitude);
 
-        List<AirportStruct> airportStructs = new ArrayList<>();
+        List<AirportStruct> airportStructs = new ArrayList<>();     //container to store airports in sorted order
 
         for(int x = 0; x < 5; x++){
-            airportStructs.add(x, new AirportStruct(airportList.getAirport(x),999999999));
+            airportStructs.add(x, new AirportStruct(airportList.getAirport(x),Integer.MAX_VALUE));
         }
 
         for (int i = 0; i < airportList.getAirportCount(); i++){
             double listLat = Math.toRadians(airportList.getAirport(i).getLat());
             double listLon = Math.toRadians(airportList.getAirport(i).getLon());
 
+            //calculate distance between input and airport
             double d = Math.abs(60 * 1.1507794 * Math.toDegrees(Math.acos(Math.sin(latitude)*Math.sin(listLat) + Math.cos(latitude)*Math.cos(listLat)*Math.cos(listLon-longitude))));
 
+            //compare distance with the current five shortest distances
+            //if shorter, put into correct spot in top five
             for(int j = 4; j >= 0; j--){
 
                 if(d < airportStructs.get(j).dist){
@@ -76,21 +74,14 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
                         airportStructs.add(j, new AirportStruct(airportList.getAirport(i),d));
                     }
                 }
-   /*             if(!(airportStructs.size() < j+1 || d < airportStructs.get(j).dist)){
-                    airportStructs.add(j+1, new AirportStruct(airportList.getAirport(i),d));
-                    break;
-                }
-                if(airportStructs.isEmpty() && j == 0){
-                    airportStructs.add(0, new AirportStruct(airportList.getAirport(i),d));
-                    break;
-                }*/
+
             }
         }
 
-        airportStructs = new ArrayList<>(airportStructs.subList(0,5));
+        airportStructs = new ArrayList<>(airportStructs.subList(0,5));      //take top 5 closest airports
 
         for(int y = 4; y >= 0; y--){
-            if(airportStructs.get(y).dist == 999999999){
+            if(airportStructs.get(y).dist == Integer.MAX_VALUE){
                 airportStructs.remove(y);
             }
         }

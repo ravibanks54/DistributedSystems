@@ -5,6 +5,7 @@ import java.io.Serializable;
 /**
  * Created by ravibhankharia on 10/5/16.
  */
+//Used to store Airport data
 public class AirportStruct implements Serializable{
     String code;
     String name;

@@ -13,15 +13,10 @@ public class PlaceServer {
             System.err.println("usage: java PlaceServer rmi_port");
             System.exit(1);
         }
-        // Create and install a security manager
-/*
-        if (System.getSecurityManager() == null)
-            System.setSecurityManager(new RMISecurityManager());
-*/
+
         int port = 1099;
         try {
-            // first command-line argument is the port of the rmiregistry
-            if (args.length == 1) {
+            if (args.length == 1) {            // first command-line argument is the port of the rmiregistry
                 port = Integer.parseInt(args[0]);
             }
             try {
@@ -31,11 +26,10 @@ public class PlaceServer {
             }
             String url = "//localhost:" + port + "/Places";
             System.out.println("binding " + url);
-            registry.bind(url, new Places());
-            //Naming.rebind(url, new Places());
+            registry.bind(url, new Places());       //bind to url
             System.out.println("server " + url + " is running...");
         }catch (Exception e) {
-            System.out.println("Place server failed:" + e.getMessage());
+            System.out.println("Place server failed");
         }
     }
 }
