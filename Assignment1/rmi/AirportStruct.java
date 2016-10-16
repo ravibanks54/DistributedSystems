@@ -23,6 +23,6 @@ public class AirportStruct implements Serializable{
     }
 
     public String toString(){
-        return "code=" + code + ", name=" + name + ", state=" + state + " distance: " + Math.round(dist) + "miles";
+        return "code=" + code + ", name=" + name + ", state=" + state + " distance: " + Math.round(dist) + " miles";
     }
 }

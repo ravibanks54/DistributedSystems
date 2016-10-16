@@ -26,18 +26,22 @@ public class Places extends UnicastRemoteObject implements PlaceInterface{
             placeList = PlaceDataProto.PlaceList.parseFrom(fileData);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
-            e.printStackTrace();
+//            e.printStackTrace();
         } catch (IOException e1) {
             System.out.println("Error Reading The File.");
-            e1.printStackTrace();
+//            e1.printStackTrace();
         }
     }
 
     @Override
     public PlaceStruct findPlace(String placename, String state) throws java.rmi.RemoteException{
+
+        if(placeList == null){
+            return null;
+        }
 
         for (int i = 0; i < placeList.getPlaceCount(); i++){
             if (placeList.getPlace(i).getName().regionMatches(true, 0, placename, 0, placename.length()) && placeList.getPlace(i).getState().equalsIgnoreCase(state)){

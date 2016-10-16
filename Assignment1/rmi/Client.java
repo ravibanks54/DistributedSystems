@@ -54,9 +54,11 @@ public class Client {
                 // call the remote method and print the return
             PlaceStruct placeStruct = place.findPlace(city, state);
             if (placeStruct == null){
-                System.out.println("Place not found");
+                System.out.println("Place not found - Either place does not exist or error retrieving Places file");
+                return;
+            } else {
+                System.out.println(placeStruct.toString());
             }
-            System.out.println(placeStruct.toString());
 
             //port--;
             String urlAirports = "//" + host + ":" + port + "/Airports";
@@ -65,6 +67,10 @@ public class Client {
             AirportInterface airport = (AirportInterface) registry.lookup(urlAirports);
             // call the remote method and print the return
             AirportStruct[] airportStructs = airport.getAirports(placeStruct.lat, placeStruct.lon);
+            if(airportStructs == null){
+                System.out.println("Error retrieving Airport data");
+                return;
+            }
             for (int i = 0; i < airportStructs.length; i++){
 
                 System.out.println(airportStructs[i].toString());
@@ -72,11 +78,11 @@ public class Client {
 
         } catch(Exception e) {
             System.out.println("Client exception: " + e);
-            StringWriter sw = new StringWriter();
+/*            StringWriter sw = new StringWriter();
             PrintWriter pw = new PrintWriter(sw);
             e.printStackTrace(pw);
             System.out.println(sw.toString()); // stack trace as a string
-            //System.out.println(e.getStackTrace());
+            //System.out.println(e.getStackTrace());*/
 
         }
     }

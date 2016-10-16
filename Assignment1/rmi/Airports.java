@@ -31,43 +31,69 @@ public class Airports extends UnicastRemoteObject implements AirportInterface{
             airportList = AirportDataProto.AirportList.parseFrom(fileData);
 
         } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         } catch (FileNotFoundException e) {
             System.out.println("File Not Found.");
-            e.printStackTrace();
+//            e.printStackTrace();
         } catch (IOException e1) {
             System.out.println("Error Reading The File.");
-            e1.printStackTrace();
+//            e1.printStackTrace();
         }
     }
 
     @Override
     public AirportStruct[] getAirports(double latitude, double longitude){
 
+        if(airportList == null){
+            return null;
+        }
+
         latitude = Math.toRadians(latitude);
         longitude = Math.toRadians(longitude);
 
         List<AirportStruct> airportStructs = new ArrayList<>();
 
+        for(int x = 0; x < 5; x++){
+            airportStructs.add(x, new AirportStruct(airportList.getAirport(x),999999999));
+        }
+
         for (int i = 0; i < airportList.getAirportCount(); i++){
             double listLat = Math.toRadians(airportList.getAirport(i).getLat());
             double listLon = Math.toRadians(airportList.getAirport(i).getLon());
 
-            double d = Math.abs(60 * Math.toDegrees(Math.acos(Math.sin(latitude)*Math.sin(listLat) + Math.cos(latitude)*Math.cos(listLat)*Math.cos(listLon-longitude))));
+            double d = Math.abs(60 * 1.1507794 * Math.toDegrees(Math.acos(Math.sin(latitude)*Math.sin(listLat) + Math.cos(latitude)*Math.cos(listLat)*Math.cos(listLon-longitude))));
 
             for(int j = 4; j >= 0; j--){
-                if(!(airportStructs.size() < j+1 || d < airportStructs.get(j).dist)){
+
+                if(d < airportStructs.get(j).dist){
+                    if(j==0){
+                        airportStructs.add(j, new AirportStruct(airportList.getAirport(i),d));
+                    }
+                    else if(d < airportStructs.get(j-1).dist){
+                        continue;
+                    }
+                    else{
+                        airportStructs.add(j, new AirportStruct(airportList.getAirport(i),d));
+                    }
+                }
+   /*             if(!(airportStructs.size() < j+1 || d < airportStructs.get(j).dist)){
                     airportStructs.add(j+1, new AirportStruct(airportList.getAirport(i),d));
                     break;
                 }
                 if(airportStructs.isEmpty() && j == 0){
                     airportStructs.add(0, new AirportStruct(airportList.getAirport(i),d));
                     break;
-                }
+                }*/
             }
         }
 
         airportStructs = new ArrayList<>(airportStructs.subList(0,5));
+
+        for(int y = 4; y >= 0; y--){
+            if(airportStructs.get(y).dist == 999999999){
+                airportStructs.remove(y);
+            }
+        }
 
         return airportStructs.toArray(new AirportStruct[airportStructs.size()]);
 
